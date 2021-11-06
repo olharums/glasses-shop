@@ -11,7 +11,6 @@ import PurposeStore from "./store/PurposeStore";
 import UserStore from "./store/UserStore";
 
 export const Context = createContext(null);
-console.log("api", process.env.REACT_APP_API_URL);
 ReactDOM.render(
   <Context.Provider
     value={{

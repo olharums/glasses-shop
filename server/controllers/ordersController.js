@@ -4,8 +4,17 @@ const ApiError = require("../error/ApiError");
 class OrdersController {
   async create(req, res, next) {
     try {
-      const { date, sum, userId, accessoryId, glassId, lenseId } = req.body;
-      console.log("d", userId, accessoryId, glassId, lenseId);
+      const {
+        date,
+        sum,
+        userId,
+        accessoryId,
+        glassId,
+        lenseId,
+        accessoriesQuantity,
+        glassesQuantity,
+        lensesQuantity,
+      } = req.body;
       const orders = await Order.create({
         accessoryId,
         glassId,
@@ -13,9 +22,10 @@ class OrdersController {
         date,
         sum,
         userId,
+        accessoriesQuantity,
+        glassesQuantity,
+        lensesQuantity,
       });
-      console.log("d2", userId, accessoryId, glassId, lenseId);
-
       return res.json(orders);
     } catch (error) {
       next(ApiError.badRequest(error.message));
@@ -25,15 +35,32 @@ class OrdersController {
     let orders = await Order.findAll();
     return res.json(orders);
   }
-  //   async getOne(req, res) {
-  //     const { id } = req.params;
-  //     const lenses = await Lenses.findOne({ where: { id } });
-  //     return res.json(lenses);
-  //   }
+
   async edit(req, res) {
-    const { id, date, sum, userId, accessoryId, glassId, lenseId } = req.body;
+    const {
+      id,
+      date,
+      sum,
+      userId,
+      accessoryId,
+      glassId,
+      lenseId,
+      accessoriesQuantity,
+      glassesQuantity,
+      lensesQuantity,
+    } = req.body;
     const orders = await Order.update(
-      { date, sum, userId, accessoryId, glassId, lenseId },
+      {
+        date,
+        sum,
+        userId,
+        accessoryId,
+        glassId,
+        lenseId,
+        accessoriesQuantity,
+        glassesQuantity,
+        lensesQuantity,
+      },
       { where: { id } }
     );
     return res.json(orders[1]);

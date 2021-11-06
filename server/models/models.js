@@ -24,6 +24,9 @@ const Order = sequelize.define("order", {
   id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
   date: { type: DataTypes.STRING, allowNull: false },
   sum: { type: DataTypes.INTEGER, allowNull: false },
+  accessoriesQuantity: { type: DataTypes.INTEGER },
+  glassesQuantity: { type: DataTypes.INTEGER },
+  lensesQuantity: { type: DataTypes.INTEGER },
 });
 
 const Accessories = sequelize.define("accessories", {

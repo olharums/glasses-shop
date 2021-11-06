@@ -17,7 +17,7 @@ const Shop = observer(() => {
     fetchAccessories().then((data) => product.setAccessories(data.rows));
     fetchGlasses().then((data) => product.setGlasses(data.rows));
     fetchLenses().then((data) => product.setLenses(data.rows));
-  }, []);
+  },[]);
   return (
     <Container>
       <Row className="mt-2">

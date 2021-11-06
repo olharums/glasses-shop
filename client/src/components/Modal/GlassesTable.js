@@ -2,11 +2,9 @@ import { observer } from "mobx-react-lite";
 import { useContext, useEffect, useState } from "react";
 import { Modal, Button, Form, Dropdown, Container } from "react-bootstrap";
 import {
-  createAccessories,
   createGlasses,
   editGlasses,
   fetchFrames,
-  fetchProviders,
 } from "../../http/productsAPI";
 import { Context } from "../../index";
 

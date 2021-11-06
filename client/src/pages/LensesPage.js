@@ -7,7 +7,7 @@ const LensesPage = () => {
   const { id } = useParams();
   useEffect(() => {
     fetchOneLenses(id).then((data) => setProduct(data));
-  }, []);
+  },[]);
   return <ProductPage product={product} />;
 };
 export default LensesPage;

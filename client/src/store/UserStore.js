@@ -7,12 +7,9 @@ export default class UserStore {
     makeAutoObservable(this);
   }
   setIsAuth(bool) {
-    // console.log("store2", this._currentUser);
-
     this._isAuth = bool;
   }
   setCurrentUser(user) {
-    console.log("store", user);
     this._currentUser = user;
   }
   setAllUsers(users) {

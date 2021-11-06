@@ -1,14 +1,11 @@
-import React, { useContext } from "react";
-import { Modal, Button, Form, Dropdown } from "react-bootstrap";
-import { Context } from "../../index";
+import React from "react";
 import AccessoriesTable from "./AccessoriesTable";
 import FramesTable from "./FramesTable";
 import GlassesTable from "./GlassesTable";
 import LensesTable from "./LensesTable";
 import OrdersTable from "./OrdersTable";
 import ProviderTable from "./ProviderTable";
-const AddRecord = ({ placeholders, show, onHide, tableName }) => {
-  const { frames, providers } = useContext(Context);
+const AddRecord = ({ show, onHide, tableName }) => {
   return tableName === "accessories" ? (
     <AccessoriesTable data={null} show={show} onHide={onHide} />
   ) : tableName === "providers" ? (

@@ -8,6 +8,7 @@ import {
   fetchLenses,
 } from "../../http/productsAPI";
 import { Context } from "../../index";
+import QuantityButton from "../QuantityButton";
 
 const OrdersTable = observer(({ edit, show, onHide, data }) => {
   const { product, user } = useContext(Context);
@@ -17,10 +18,13 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
   const [sum, setSum] = useState(0);
 
   const [accessoriesData, setAccessoriesData] = useState("");
+  const [accessoriesQuantity, setAccessoriesQuantity] = useState(0);
 
   const [glassesData, setGlassesData] = useState("");
+  const [glassesQuantity, setGlassesQuantity] = useState(0);
 
   const [lensesData, setLensesData] = useState("");
+  const [lensesQuantity, setLensesQuantity] = useState(0);
 
   const [orderValid, setOrderValid] = useState(true);
 
@@ -56,14 +60,17 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
     formData.append("date", data ? data.date : orderDate.toLocaleDateString());
     formData.append("sum", calculateSum());
     formData.append("userId", data ? data.userId : user.currentUser.id);
-    if (accessoriesData) {
+    if (accessoriesQuantity || (data && data.accessoriesQuantity)) {
       formData.append("accessoryId", accessoriesData.id);
+      formData.append("accessoriesQuantity", accessoriesQuantity);
     }
-    if (glassesData) {
+    if (glassesQuantity || (data && data.glassesQuantity)) {
       formData.append("glassId", glassesData.id);
+      formData.append("glassesQuantity", glassesQuantity);
     }
-    if (lensesData) {
+    if (lensesQuantity || (data && data.lensesQuantity)) {
       formData.append("lenseId", lensesData.id);
+      formData.append("lensesQuantity", lensesQuantity);
     }
     return formData;
   };
@@ -82,6 +89,9 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
     setAccessoriesData("");
     setGlassesData("");
     setLensesData("");
+    setAccessoriesQuantity(0);
+    setGlassesQuantity(0);
+    setLensesQuantity(0);
     setSumInfo(true);
     setSum(0);
   };
@@ -119,10 +129,12 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
         <Form className="d-flex flex-column text-center">
           <Dropdown className="mb-3">
             <Dropdown.Toggle variant={orderValid ? "primary" : "danger"}>
-              {accessoriesData
-                ? accessoriesData.name
-                : data && data.accessoryId
-                ? product.getAccessoriesById(data.accessoryId).name
+              {accessoriesQuantity || (data && data.accessoriesQuantity)
+                ? accessoriesData
+                  ? accessoriesData.name
+                  : data && data.accessoryId
+                  ? product.getAccessoriesById(data.accessoryId).name
+                  : "Выберите аксессуар"
                 : "Выберите аксессуар"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -132,6 +144,7 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
                   onClick={(e) => {
                     setAccessoriesData(acc);
                     setSumInfo(true);
+                    setAccessoriesQuantity(1);
                   }}
                 >
                   {acc.name}
@@ -139,12 +152,27 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
+          <QuantityButton
+            access={Boolean(
+              accessoriesQuantity || (data && data.accessoriesQuantity)
+            )}
+            value={
+              accessoriesQuantity
+                ? accessoriesQuantity
+                : data && data.accessoriesQuantity
+                ? data.accessoriesQuantity
+                : 0
+            }
+            setValue={setAccessoriesQuantity}
+          />
           <Dropdown className="mb-3">
             <Dropdown.Toggle variant={orderValid ? "primary" : "danger"}>
-              {glassesData
-                ? glassesData.name
-                : data && data.glassId
-                ? product.getGlassesById(data.glassId).name
+              {glassesQuantity || (data && data.glassesQuantity)
+                ? glassesData
+                  ? glassesData.name
+                  : data && data.glassId
+                  ? product.getGlassesById(data.glassId).name
+                  : "Выберите очки"
                 : "Выберите очки"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -154,6 +182,7 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
                   onClick={(e) => {
                     setGlassesData(gl);
                     setSumInfo(true);
+                    setGlassesQuantity(1);
                   }}
                 >
                   {gl.name}
@@ -161,12 +190,25 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
+          <QuantityButton
+            access={Boolean(glassesQuantity || (data && data.glassesQuantity))}
+            value={
+              glassesQuantity
+                ? glassesQuantity
+                : data && data.glassesQuantity
+                ? data.glassesQuantity
+                : 0
+            }
+            setValue={setGlassesQuantity}
+          />
           <Dropdown className="mb-3">
             <Dropdown.Toggle variant={orderValid ? "primary" : "danger"}>
-              {lensesData
-                ? lensesData.name
-                : data && data.lenseId
-                ? product.getLensesById(data.lenseId).name
+              {lensesQuantity || (data && data.lensesQuantity)
+                ? lensesData
+                  ? lensesData.name
+                  : data && data.lenseId
+                  ? product.getLensesById(data.lenseId).name
+                  : "Выберите линзы"
                 : "Выберите линзы"}
             </Dropdown.Toggle>
             <Dropdown.Menu>
@@ -176,6 +218,7 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
                   onClick={(e) => {
                     setLensesData(lens);
                     setSumInfo(true);
+                    setLensesQuantity(1);
                   }}
                 >
                   {lens.name}
@@ -183,6 +226,17 @@ const OrdersTable = observer(({ edit, show, onHide, data }) => {
               ))}
             </Dropdown.Menu>
           </Dropdown>
+          <QuantityButton
+            access={Boolean(lensesQuantity || (data && data.lensesQuantity))}
+            value={
+              lensesQuantity
+                ? lensesQuantity
+                : data && data.lensesQuantity
+                ? data.lensesQuantity
+                : 0
+            }
+            setValue={setLensesQuantity}
+          />
           <Container>
             <Button
               variant="warning"

@@ -3,11 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { Modal, Button, Form, Dropdown } from "react-bootstrap";
 import { fetchProviders } from "../../http/providersAPI";
 
-import {
-  createAccessories,
-  createLenses,
-  editLenses,
-} from "../../http/productsAPI";
+import { createLenses, editLenses } from "../../http/productsAPI";
 import { Context } from "../../index";
 
 const LensesTable = observer(({ edit, show, onHide, data }) => {

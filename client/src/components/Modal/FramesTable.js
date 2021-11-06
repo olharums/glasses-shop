@@ -1,18 +1,9 @@
 import { observer } from "mobx-react-lite";
-import { useContext, useEffect, useState } from "react";
-import { Modal, Button, Form, Dropdown } from "react-bootstrap";
-import {
-  createAccessories,
-  createFrames,
-  editFrames,
-  fetchProviders,
-} from "../../http/productsAPI";
-import { check } from "../../http/userAPI";
-import { Context } from "../../index";
+import { useState } from "react";
+import { Modal, Button, Form } from "react-bootstrap";
+import { createFrames, editFrames } from "../../http/productsAPI";
 
 const FramesTable = observer(({ edit, show, onHide, data }) => {
-  const { frames } = useContext(Context);
-
   const id = data ? data.id : null;
 
   const [name, setName] = useState("");
